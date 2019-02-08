@@ -4,14 +4,31 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="DC-Covers">
+    <meta name="msapplication-TileImage" content="link to the image in static folder">
+    <meta name="msapplication-TileColor" content="#000">
+    <link rel="manifest" href="/manifest.json"/>
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="apple-touch-icon" href="/coffee-cup.png">
     <title>coffeeproject</title>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but coffeeproject doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
+    <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDLBctgu18vNjYib7pXYpUAaIvuRuwyEFA",
+        authDomain: "coffeeproject-5ffac.firebaseapp.com",
+        databaseURL: "https://coffeeproject-5ffac.firebaseio.com",
+        projectId: "coffeeproject-5ffac",
+        storageBucket: "coffeeproject-5ffac.appspot.com",
+        messagingSenderId: "770374750522"
+      };
+      firebase.initializeApp(config);
+    </script>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <!-- <script src="/dist/build.js"></script> -->
   </body>
 </html>
