@@ -13,7 +13,12 @@
         <button class="btn btn-lg btn-primary btn-block" v-on:click="Cadastrar()">Cadastrar</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
     </form>
-
+  <b-modal ref="myModalRef" hide-footer title="Error">
+        <div class="d-block text-center">
+          <h4>{{errorMSG}}</h4>
+        </div>
+        <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-btn>
+    </b-modal>
   </div>
 </template>
 
@@ -24,21 +29,24 @@ export default {
     return {
       email: "",
       password: "",
-      teste: "",
+      errorMSG: "",
       name: ""
       }
     },
 
   methods: {
-
+    showModal: function() {
+      this.$refs.myModalRef.show()
+    },
+    hideModal: function() {
+      this.$refs.myModalRef.hide()
+    },
     Cadastrar: function() {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function(error) {
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch( (error) => {
         // Handle Errors here.
-        if (error == null) {
-          console
-          this.teste = this.email
-        }
         console.log(error)
+        this.errorMSG = error.message
+        this.showModal()
         // ...
       }).then((data) => {
           let uid = data.user.uid;
