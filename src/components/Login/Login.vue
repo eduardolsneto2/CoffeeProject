@@ -12,9 +12,22 @@
         <input type="password" id="inputPassword" class="form-control" v-model="password" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" v-on:click="login()" type="submit">Sign in</button>
         <button class="btn btn-lg btn-secondary btn-block" v-on:click="goToSignUp()" type="submit">Sign Up</button>
+        <div v-if="loading" class="text-center" style="padding-top: 10px">
+        <v-progress-circular
+        :size="50"
+        color="green"
+        indeterminate
+        ></v-progress-circular>
+        </div>
         <p class="mt-5 mb-3 text-muted">&copy; 2019 </p>
     </form>
-
+    
+    <b-modal ref="myModalRef" hide-footer title="Error">
+        <div class="d-block text-center">
+          <h4>{{errorMSG}}</h4>
+        </div>
+        <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-btn>
+    </b-modal>
   </div>
 </template>
 
@@ -25,20 +38,31 @@ export default {
     return {
       email: "",
       password: "",
-      teste: ""
+      teste: "",
+      errorMSG: '',
+      loading: true
       }
     },
 
   methods: {
-
+    showModal: function() {
+      this.$refs.myModalRef.show()
+    },
+    hideModal: function() {
+      this.$refs.myModalRef.hide()
+    },
     login: function() {
+      this.loading = true
       console.log('a senha é')
       console.log(this.password)
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(error) {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch( (error) => {
         // Handle Errors here.
+        this.loading = false
         console.log(error)
         var errorCode = error.code;
         var errorMessage = error.message;
+        this.errorMSG = error.message;
+        this.showModal()
         // ...
 });
     },
@@ -49,6 +73,7 @@ export default {
   created(){
     firebase.auth().onAuthStateChanged(user => {
       console.log('verificou')
+      this.loading = false
       if(user) {
         console.log('tem algum usuario')
       this.$router.push({path: '/Presenca'})
